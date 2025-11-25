@@ -102,16 +102,7 @@ New-AzRoleAssignment -ApplicationId $config.appId `
     -Scope $dcr.ResourceId
 ```
 
-### Step 6: Provide Details to Obsidian
 
-Send the following to Obsidian Security:
 
-| Field | Value |
-|-------|-------|
-| Tenant ID | From config.json |
-| App ID | From config.json |
-| App Secret | From config.json |
-| DCR Immutable ID | From Deploy-Obsidian.ps1 output |
-| Ingestion Endpoint | From Deploy-Obsidian.ps1 output |
 
 
