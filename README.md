@@ -16,7 +16,7 @@ Deploy Obsidian Security data connector for Azure Government (GCCH) environments
 
 | File | Description |
 |------|-------------|
-| `config.template.json` | Configuration template - copy to `config.json` |
+| `config.json` | Configuration file - edit with your values |
 | `Create-Tables.ps1` | Creates custom Log Analytics tables |
 | `Deploy-Obsidian.ps1` | Deploys the Data Collection Rule (DCR) |
 | `ObsidianDatasharing_tableActivity.json` | Schema for ObsidianActivity_CL table |
@@ -37,39 +37,35 @@ Deploy Obsidian Security data connector for Azure Government (GCCH) environments
    - Expiration: Choose appropriate duration
 5. **Copy the secret value immediately** (it won't be shown again)
 
-### Step 2: Configure
+### Step 2: Edit config.json
 
-1. Copy the template to create your config:
-   ```powershell
-   Copy-Item config.template.json config.json
-   ```
+Edit `config.json` with your values:
 
-2. Edit `config.json` with your values:
-   ```json
-   {
-     "tenantId": "your-tenant-id",
-     "subscriptionId": "your-subscription-id",
-     "resourceGroup": "your-resource-group",
-     "workspaceName": "your-workspace-name",
-     "workspaceResourceId": "",
-     "location": "usgovvirginia",
-     "dcrName": "ObsidianDatasharingDCR",
-     "appId": "app-registration-client-id",
-     "appSecret": "app-registration-secret"
-   }
-   ```
+```json
+{
+  "tenantId": "your-tenant-id",
+  "subscriptionId": "your-subscription-id",
+  "resourceGroup": "your-resource-group",
+  "workspaceName": "your-workspace-name",
+  "workspaceResourceId": "",
+  "location": "usgovvirginia",
+  "dcrName": "ObsidianDatasharingDCR",
+  "appId": "app-registration-client-id",
+  "appSecret": "app-registration-secret"
+}
+```
 
-   | Field | Description |
-   |-------|-------------|
-   | `tenantId` | Your Azure AD tenant ID |
-   | `subscriptionId` | Azure subscription containing the Log Analytics workspace |
-   | `resourceGroup` | Resource group where the DCR will be created |
-   | `workspaceName` | Name of your Log Analytics workspace |
-   | `workspaceResourceId` | (Optional) Full resource ID of workspace - auto-detected if blank |
-   | `location` | Azure region - use `usgovvirginia` or `usgovarizona` for GCCH |
-   | `dcrName` | Name for the Data Collection Rule |
-   | `appId` | Application (client) ID from Step 1 |
-   | `appSecret` | Client secret from Step 1 |
+| Field | Description |
+|-------|-------------|
+| `tenantId` | Your Azure AD tenant ID |
+| `subscriptionId` | Azure subscription containing the Log Analytics workspace |
+| `resourceGroup` | Resource group where the DCR will be created |
+| `workspaceName` | Name of your Log Analytics workspace |
+| `workspaceResourceId` | (Optional) Full resource ID of workspace - auto-detected if blank |
+| `location` | Azure region - use `usgovvirginia` or `usgovarizona` for GCCH |
+| `dcrName` | Name for the Data Collection Rule |
+| `appId` | Application (client) ID from Step 1 |
+| `appSecret` | Client secret from Step 1 |
 
 ### Step 3: Create Tables
 
@@ -135,8 +131,8 @@ Wait a few minutes after running Create-Tables.ps1. Tables are created asynchron
 
 ## Security Notes
 
-- Store `config.json` securely - it contains the app secret
-- Do not commit `config.json` to source control
+- After deployment, consider removing the `appSecret` from config.json
+- Do not commit config.json with real secrets to source control
 - Consider using Azure Key Vault for production secret management
 - Rotate the app secret periodically
 
