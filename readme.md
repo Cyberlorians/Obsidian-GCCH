@@ -165,7 +165,4 @@ union ObsidianActivity_CL, ObsidianThreat_CL
 
 ---
 
-## Support
 
-- **Obsidian Security**: support@obsidiansecurity.com
-- **Microsoft Sentinel**: [Azure Support](https://azure.microsoft.com/support/)
