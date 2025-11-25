@@ -1,0 +1,11 @@
+{
+  "tenantId": "<your-tenant-id>",
+  "subscriptionId": "<your-subscription-id>",
+  "resourceGroup": "<resource-group-for-dcr>",
+  "workspaceName": "<log-analytics-workspace-name>",
+  "workspaceResourceId": "",
+  "location": "usgovvirginia",
+  "dcrName": "ObsidianDatasharingDCR",
+  "appId": "<app-registration-client-id>",
+  "appSecret": "<app-registration-client-secret>"
+}
