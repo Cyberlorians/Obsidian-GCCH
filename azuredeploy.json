@@ -1,0 +1,159 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workspaceResourceId": {
+      "type": "string",
+      "metadata": {
+        "description": "Full resource ID of the Log Analytics workspace"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources"
+      }
+    },
+    "dcrName": {
+      "type": "string",
+      "defaultValue": "Obsidian-DCR-Direct",
+      "metadata": {
+        "description": "Name of the Data Collection Rule"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/dataCollectionRules",
+      "apiVersion": "2023-03-11",
+      "name": "[parameters('dcrName')]",
+      "location": "[parameters('location')]",
+      "kind": "Direct",
+      "properties": {
+        "description": "DCR for Obsidian Security data ingestion (Activity and Threat tables)",
+        "streamDeclarations": {
+          "Custom-ObsidianActivity": {
+            "columns": [
+              { "name": "TimeGenerated", "type": "datetime" },
+              { "name": "EventMessage", "type": "string" },
+              { "name": "EventOriginalType", "type": "string" },
+              { "name": "EventType", "type": "string" },
+              { "name": "EventResult", "type": "string" },
+              { "name": "EventSchemaVersion", "type": "string" },
+              { "name": "EventOwner", "type": "string" },
+              { "name": "EventProduct", "type": "string" },
+              { "name": "EventVendor", "type": "string" },
+              { "name": "EventSchema", "type": "string" },
+              { "name": "ActorUserId", "type": "string" },
+              { "name": "ActorUsername", "type": "string" },
+              { "name": "ActorUserType", "type": "string" },
+              { "name": "ActorEmail", "type": "string" },
+              { "name": "ActingAppName", "type": "string" },
+              { "name": "Application", "type": "string" },
+              { "name": "Object", "type": "string" },
+              { "name": "ObjectId", "type": "string" },
+              { "name": "ObjectName", "type": "string" },
+              { "name": "ObjectType", "type": "string" },
+              { "name": "Operation", "type": "string" },
+              { "name": "SrcIpAddr", "type": "string" },
+              { "name": "SrcGeoCity", "type": "string" },
+              { "name": "SrcGeoCountry", "type": "string" },
+              { "name": "SrcGeoRegion", "type": "string" },
+              { "name": "TargetUserId", "type": "string" },
+              { "name": "TargetUsername", "type": "string" },
+              { "name": "AdditionalFields", "type": "dynamic" },
+              { "name": "SourceSystem", "type": "string" }
+            ]
+          },
+          "Custom-ObsidianThreat": {
+            "columns": [
+              { "name": "TimeGenerated", "type": "datetime" },
+              { "name": "AlertLink", "type": "string" },
+              { "name": "AlertName", "type": "string" },
+              { "name": "AlertOriginalSeverity", "type": "string" },
+              { "name": "AlertSeverity", "type": "string" },
+              { "name": "AlertOriginalStatus", "type": "string" },
+              { "name": "AlertStatus", "type": "string" },
+              { "name": "AlertType", "type": "string" },
+              { "name": "AlertSubType", "type": "string" },
+              { "name": "AlertVerdict", "type": "string" },
+              { "name": "AttackTactics", "type": "dynamic" },
+              { "name": "AttackTechniques", "type": "dynamic" },
+              { "name": "CompromisedEntity", "type": "string" },
+              { "name": "ConfidenceLevel", "type": "string" },
+              { "name": "Description", "type": "string" },
+              { "name": "DetectionMethod", "type": "string" },
+              { "name": "Entities", "type": "dynamic" },
+              { "name": "EventCount", "type": "int" },
+              { "name": "EventEndTime", "type": "datetime" },
+              { "name": "EventMessage", "type": "string" },
+              { "name": "EventOriginalType", "type": "string" },
+              { "name": "EventOwner", "type": "string" },
+              { "name": "EventProduct", "type": "string" },
+              { "name": "EventVendor", "type": "string" },
+              { "name": "EventSchema", "type": "string" },
+              { "name": "EventSchemaVersion", "type": "string" },
+              { "name": "EventStartTime", "type": "datetime" },
+              { "name": "EventType", "type": "string" },
+              { "name": "EventUid", "type": "string" },
+              { "name": "ProductName", "type": "string" },
+              { "name": "ProviderName", "type": "string" },
+              { "name": "RemediationSteps", "type": "dynamic" },
+              { "name": "SystemAlertId", "type": "string" },
+              { "name": "ThreatCategory", "type": "string" },
+              { "name": "ThreatId", "type": "string" },
+              { "name": "ThreatName", "type": "string" },
+              { "name": "ThreatRiskLevel", "type": "int" },
+              { "name": "VendorName", "type": "string" },
+              { "name": "VendorOriginalId", "type": "string" },
+              { "name": "ActorUserId", "type": "string" },
+              { "name": "ActorUsername", "type": "string" },
+              { "name": "TargetUserId", "type": "string" },
+              { "name": "TargetUsername", "type": "string" },
+              { "name": "AdditionalFields", "type": "dynamic" },
+              { "name": "SourceSystem", "type": "string" }
+            ]
+          }
+        },
+        "dataSources": {},
+        "destinations": {
+          "logAnalytics": [
+            {
+              "workspaceResourceId": "[parameters('workspaceResourceId')]",
+              "name": "law-destination"
+            }
+          ]
+        },
+        "dataFlows": [
+          {
+            "streams": ["Custom-ObsidianActivity"],
+            "destinations": ["law-destination"],
+            "transformKql": "source",
+            "outputStream": "Custom-ObsidianActivity_CL"
+          },
+          {
+            "streams": ["Custom-ObsidianThreat"],
+            "destinations": ["law-destination"],
+            "transformKql": "source",
+            "outputStream": "Custom-ObsidianThreat_CL"
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "dcrId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Insights/dataCollectionRules', parameters('dcrName'))]"
+    },
+    "immutableId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Insights/dataCollectionRules', parameters('dcrName'))).immutableId]"
+    },
+    "logsIngestionEndpoint": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Insights/dataCollectionRules', parameters('dcrName'))).endpoints.logsIngestion]"
+    }
+  }
+}

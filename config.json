@@ -1,0 +1,17 @@
+{
+    "Azure": {
+        "SubscriptionId": "",
+        "ResourceGroupName": "",
+        "Location": "usgovvirginia"
+    },
+    "Workspace": {
+        "Name": "",
+        "ResourceGroupName": ""
+    },
+    "AppRegistration": {
+        "DisplayName": "Obsidian-Sentinel-Connector"
+    },
+    "DCR": {
+        "Name": "Obsidian-DCR-Direct"
+    }
+}
