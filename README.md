@@ -114,30 +114,4 @@ Send the following to Obsidian Security:
 | DCR Immutable ID | From Deploy-Obsidian.ps1 output |
 | Ingestion Endpoint | From Deploy-Obsidian.ps1 output |
 
-## Troubleshooting
 
-### "InvalidAuthenticationToken" Error
-The Az.Accounts module returns tokens as SecureString in newer versions. The scripts handle this automatically.
-
-### "Forbidden" Error When Sending Data
-Ensure the **Monitoring Metrics Publisher** role is assigned to the App Registration (not your user account) on the DCR resource.
-
-### Tables Not Appearing
-Wait a few minutes after running Create-Tables.ps1. Tables are created asynchronously.
-
-### Data Not Appearing
-- Verify role assignment is complete (can take up to 15 minutes to propagate)
-- Check the App Secret hasn't expired
-
-## Security Notes
-
-- After deployment, consider removing the `appSecret` from config.json
-- Do not commit config.json with real secrets to source control
-- Consider using Azure Key Vault for production secret management
-- Rotate the app secret periodically
-
-## Support
-
-For issues with:
-- **This deployment**: Check Azure Activity Log and DCR metrics
-- **Obsidian data**: Contact Obsidian Security support
